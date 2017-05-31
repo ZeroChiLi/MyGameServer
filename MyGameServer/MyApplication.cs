@@ -32,7 +32,7 @@ namespace MyGameServer
         {
             InitLogging();
 
-            Log("It Fucking Setup!");
+            Log("调用 Setup()!");
         }
 
         protected virtual void InitLogging()
@@ -45,7 +45,7 @@ namespace MyGameServer
 
         protected override void TearDown()
         {
-            Log("It Fucking TearDown!");
+            Log("调用 TearDown!");
         }
     }
 }

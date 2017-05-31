@@ -1,6 +1,5 @@
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameSever\bin\MyGameServer.dll
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameSever\bin\MyGameServer.pdb
-E:\Unity_code\MyGameServer\MyGameServer\obj\Debug\MyGameServer.csprojResolveAssemblyReference.cache
 E:\Unity_code\MyGameServer\MyGameServer\obj\Debug\MyGameServer.dll
 E:\Unity_code\MyGameServer\MyGameServer\obj\Debug\MyGameServer.pdb
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\MyGameServer.dll
