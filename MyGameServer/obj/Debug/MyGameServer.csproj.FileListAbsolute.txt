@@ -5,3 +5,4 @@ E:\Unity_code\MyGameServer\MyGameServer\obj\Debug\MyGameServer.pdb
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\MyGameServer.dll
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\MyGameServer.pdb
 D:\Program\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\log4net.config
+E:\Unity_code\MyGameServer\MyGameServer\obj\Debug\MyGameServer.csprojResolveAssemblyReference.cache

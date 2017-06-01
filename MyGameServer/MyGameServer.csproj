@@ -37,6 +37,10 @@
     <Reference Include="ExitGamesLibs">
       <HintPath>lib\ExitGamesLibs.dll</HintPath>
     </Reference>
+    <Reference Include="LitJson, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LitJson.0.7.0\lib\LitJson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\log4net.dll</HintPath>
@@ -56,6 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\AccountCache.cs" />
+    <Compile Include="Cache\Factory.cs" />
+    <Compile Include="Logic\AccountHandler.cs" />
+    <Compile Include="Logic\IHandler.cs" />
+    <Compile Include="Model\AccountModel.cs" />
     <Compile Include="MyApplication.cs" />
     <Compile Include="MyClientPeer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +73,14 @@
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{A799BA09-1DF8-4903-AEB2-4ABD6A34B9A1}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
