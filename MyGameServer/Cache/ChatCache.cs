@@ -15,12 +15,26 @@ namespace MyGameServer.Cache
             room = new RoomModel(0);
         }
 
-        public RoomModel Enter(MyClientPeer client,AccountModel model)
+        //进入房间模型
+        public RoomModel Enter(MyClientPeer client, AccountModel model)
         {
             if (room.Contains(client))
                 return null;
 
-            room.Add(client,model);
+            room.Add(client, model);
+            return room;
+        }
+
+        public AccountModel Leave(MyClientPeer client)
+        {
+            AccountModel model = null;
+            room.clientAccountDict.TryGetValue(client,out model);
+            return model;
+        }
+
+        //获取房间模型
+        public RoomModel GetRoomModel()
+        {
             return room;
         }
     }

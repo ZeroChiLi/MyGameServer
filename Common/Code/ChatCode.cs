@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Common.Code
 {
-    public enum ChatCode
+    public enum ChatCode : byte
     {
         Enter,      //进入
-        Talk        //聊天
+        Talk,       //聊天
+        Leave       //离开
     }
 }

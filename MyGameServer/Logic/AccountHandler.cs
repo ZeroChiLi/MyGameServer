@@ -40,6 +40,7 @@ namespace MyGameServer.Logic
         private void Register(MyClientPeer client, AccountDto account)
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Account, new Dictionary<byte, object>());
+            response.Parameters[80] = AccountCode.Register;
             if (cache.HasAccount(account.Account))
             {
                 SendResponseWithInformation(client, response, "该帐号已经存在", -1);
@@ -47,9 +48,7 @@ namespace MyGameServer.Logic
             else
             {
                 cache.Add(account.Account, account.Password);
-
                 SendResponseWithInformation(client, response, "注册成功", 0);
-
             }
             return;
         }
@@ -58,6 +57,7 @@ namespace MyGameServer.Logic
         private void Login(MyClientPeer client, AccountDto account)
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Account, new Dictionary<byte, object>());
+            response.Parameters[80] = AccountCode.Login;
             if(!cache.HasAccount(account.Account))
             {
                 SendResponseWithInformation(client, response, "该帐号不存在", -1);
@@ -76,10 +76,11 @@ namespace MyGameServer.Logic
             else
             {
                 cache.Online(client,account.Account,account.Password);
-                SendResponseWithInformation(client, response, "登陆成功", 1);
+                SendResponseWithInformation(client, response, "登陆成功", 0);
             }
         }
 
+        //发送信息
         private void SendResponseWithInformation(MyClientPeer client,OperationResponse response,string debugMessage = "", short returnCode = 0)
         {
             response.DebugMessage = debugMessage;

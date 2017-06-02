@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Code.Common
 {
-    [Serializable]
-    public enum AccountCode
+    //[Serializable]
+    public enum AccountCode : byte
     {
         Register,
         Login

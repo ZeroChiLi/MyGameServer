@@ -7,6 +7,11 @@ namespace Common.Dto
 {
     public class RoomDto
     {
-        public List<AccountDto> accountDict;
+        public List<AccountDto> accountList;
+
+        public RoomDto()
+        {
+            accountList = new List<AccountDto>();
+        }
     }
 }
