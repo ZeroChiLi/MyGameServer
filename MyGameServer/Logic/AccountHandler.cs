@@ -7,6 +7,7 @@ using Code.Common;
 using MyGameServer.Cache;
 using Common.Dto;
 using LitJson;
+using 
 
 namespace MyGameServer.Logic
 {
@@ -15,13 +16,13 @@ namespace MyGameServer.Logic
         AccountCache cache = Factory.AccountCache;
 
         //客户端下线
-        public void OnClientOffline(MyClientPeer client)
+        public void OnDisconnect(MyClientPeer client)
         {
             cache.Offline(client);
         }
 
         //请求处理
-        public void OnClientRequest(MyClientPeer client, byte subCode, OperationRequest request)
+        public void OnRequest(MyClientPeer client, byte subCode, OperationRequest request)
         {
             AccountDto dto = JsonMapper.ToObject<AccountDto>(request.Parameters[0].ToString()) as AccountDto;
             switch ((AccountCode)subCode)
@@ -75,7 +76,7 @@ namespace MyGameServer.Logic
             }
             else
             {
-                cache.Online(client);
+                cache.Online(client,account.Account,account.Password);
                 SendResponseWithInformation(client, response, "登陆成功", 1);
             }
         }

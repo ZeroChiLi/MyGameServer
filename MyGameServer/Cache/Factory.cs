@@ -8,7 +8,6 @@ namespace MyGameServer.Cache
     public class Factory
     {
         private static AccountCache accountCache = null;
-
         public static AccountCache AccountCache
         {
             get
@@ -17,6 +16,18 @@ namespace MyGameServer.Cache
                     accountCache = new AccountCache();
                 return accountCache;
             }
+        }
+
+        private static ChatCache chatCache = null;
+        public static ChatCache ChatCache
+        {
+            get
+            {
+                if (chatCache == null)
+                    chatCache = new ChatCache();
+                return chatCache;
+            }
+
         }
     }
 }

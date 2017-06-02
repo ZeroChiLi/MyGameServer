@@ -8,19 +8,23 @@ namespace MyGameServer
 {
     public class MyClientPeer : ClientPeer
     {
-
+        //帐号处理
         AccountHandler account;
+        //聊天处理
+        ChatHandle chat;
 
         //客户端连接Peer
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
             account = new AccountHandler();
+            chat = new ChatHandle();
         }
 
         //客户端断开
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            MyApplication.Log("客户端断开。 OnDisconnect() ");
+            chat.OnDisconnect(this);
+            account.OnDisconnect(this);
         }
 
         //客户端发出请求
@@ -29,7 +33,10 @@ namespace MyGameServer
             switch((OpCode)request.OperationCode)
             {
                 case OpCode.Account:
-                    account.OnClientRequest(this, (byte)request.Parameters[80], request);
+                    account.OnRequest(this, (byte)request.Parameters[80], request);
+                    break;
+                case OpCode.Chat:
+                    chat.OnRequest(this, (byte)request.Parameters[80], request)
                     break;
             }
 

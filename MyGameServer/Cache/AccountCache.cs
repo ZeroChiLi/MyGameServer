@@ -48,25 +48,36 @@ namespace MyGameServer.Cache
         #region 登录
 
         //在线玩家客户端和帐号模型映射
-        //private Dictionary<MyClientPeer, AccountModel> clientModelDict;
-        private List<MyClientPeer> clientList;
+        private Dictionary<MyClientPeer, AccountModel> clientModelDict;
 
         //用户是否在线
         public bool IsOnline(MyClientPeer client)
         {
-            return clientList.Contains(client);
+            return clientModelDict.ContainsKey(client);
         }
 
         //玩家上线
-        public void Online(MyClientPeer client)
+        public void Online(MyClientPeer client,string account, string password)
         {
-            clientList.Add(client);
+            foreach (AccountModel model in idModelDict.Values)
+            {
+                if (model.Account == account && model.Password == password)
+                    clientModelDict.Add(client, model);
+            }
         }
 
         //玩家下线
         public void Offline(MyClientPeer client)
         {
-            clientList.Remove(client);
+            clientModelDict.Remove(client);
+        }
+
+        public AccountModel GetModel(MyClientPeer client)
+        {
+            AccountModel model = null;
+            clientModelDict.TryGetValue(client, out model);
+
+            return model;
         }
 
         #endregion
@@ -74,8 +85,7 @@ namespace MyGameServer.Cache
         public AccountCache()
         {
             idModelDict = new Dictionary<int, AccountModel>();
-            //clientModelDict = new Dictionary<MyClientPeer, AccountModel>();
-            clientList = new List<MyClientPeer>();
+            clientModelDict = new Dictionary<MyClientPeer, AccountModel>();
         }
     }
 }
