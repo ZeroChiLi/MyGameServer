@@ -36,7 +36,7 @@ namespace MyGameServer
                     account.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
                 case OpCode.Chat:
-                    chat.OnRequest(this, (byte)request.Parameters[80], request)
+                    chat.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
             }
 

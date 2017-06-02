@@ -15,13 +15,13 @@ namespace MyGameServer.Cache
             room = new RoomModel(0);
         }
 
-        public bool Enter(MyClientPeer client,AccountModel model)
+        public RoomModel Enter(MyClientPeer client,AccountModel model)
         {
             if (room.Contains(client))
-                return false;
+                return null;
 
             room.Add(client,model);
-            return true;
+            return room;
         }
     }
 }

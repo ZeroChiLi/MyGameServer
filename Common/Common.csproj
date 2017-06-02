@@ -42,6 +42,7 @@
     <Compile Include="Code\ChatCode.cs" />
     <Compile Include="Code\OpCode.cs" />
     <Compile Include="Dto\AccountDto.cs" />
+    <Compile Include="Dto\RoomDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
