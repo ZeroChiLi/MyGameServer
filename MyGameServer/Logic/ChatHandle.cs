@@ -47,18 +47,18 @@ namespace MyGameServer.Logic
                 return;
             }
 
-            //告诉其他房间客户端
-            AccountDto accountDto = new AccountDto() { Account = account.Account, Password = account.Password };
-            response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
-            foreach (var item in room.clientAccountDict.Keys)
-                SendResponseWithInformation(item, response, "新的客户端进入房间", 0);
-
             //进入成功，创建房间模型
             RoomDto roomDto = new RoomDto();
             foreach (var item in room.clientAccountDict.Values)
                 roomDto.accountList.Add(new AccountDto() { Account = item.Account, Password = item.Password });
             response.Parameters[0] = LitJson.JsonMapper.ToJson(roomDto);
             SendResponseWithInformation(client, response, "进入房间成功", 0);
+
+            //告诉其他房间客户端
+            AccountDto accountDto = new AccountDto() { Account = account.Account, Password = account.Password };
+            response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
+            foreach (var item in room.clientAccountDict.Keys)
+                SendResponseWithInformation(item, response, "新的客户端进入房间" , 0);
 
         }
 

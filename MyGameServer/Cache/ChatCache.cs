@@ -15,7 +15,7 @@ namespace MyGameServer.Cache
             room = new RoomModel(0);
         }
 
-        //进入房间模型
+        //进入房间
         public RoomModel Enter(MyClientPeer client, AccountModel model)
         {
             if (room.Contains(client))
@@ -25,10 +25,14 @@ namespace MyGameServer.Cache
             return room;
         }
 
+        //离开房间
         public AccountModel Leave(MyClientPeer client)
         {
-            AccountModel model = null;
-            room.clientAccountDict.TryGetValue(client,out model);
+            if (!room.clientAccountDict.ContainsKey(client))
+                return null;
+
+            AccountModel model = room.clientAccountDict[client];
+            room.clientAccountDict.Remove(client);
             return model;
         }
 

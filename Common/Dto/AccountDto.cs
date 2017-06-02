@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Common.Dto
 {
+    [Serializable]
     public class AccountDto
     {
         public string Account;

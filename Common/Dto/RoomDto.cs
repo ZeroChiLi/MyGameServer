@@ -5,13 +5,14 @@ using System.Text;
 
 namespace Common.Dto
 {
+    [Serializable]
     public class RoomDto
     {
         public List<AccountDto> accountList;
 
         public RoomDto()
         {
-            acou
+            accountList = new List<AccountDto>();
         }
     }
 }
