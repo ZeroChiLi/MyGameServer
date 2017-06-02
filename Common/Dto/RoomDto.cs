@@ -11,7 +11,7 @@ namespace Common.Dto
 
         public RoomDto()
         {
-            accountList = new List<AccountDto>();
+            acou
         }
     }
 }

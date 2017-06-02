@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Photon.SocketServer;
 using Common.Code;
 using MyGameServer.Cache;
@@ -50,22 +47,19 @@ namespace MyGameServer.Logic
                 return;
             }
 
-            //进入成功，创建房间模型
-            RoomDto roomDto = new RoomDto();
-            foreach (var item in room.clientAccountDict.Values)
-            {
-                roomDto.accountList.Add(new AccountDto() { Account = item.Account, Password = item.Password });
-            }
-            response.Parameters[0] = LitJson.JsonMapper.ToJson(roomDto);
-            SendResponseWithInformation(client, response, "进入房间成功", 0);
-
             //告诉其他房间客户端
             AccountDto accountDto = new AccountDto() { Account = account.Account, Password = account.Password };
             response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
-            foreach(var item in room.clientAccountDict.Keys)
-            {
+            foreach (var item in room.clientAccountDict.Keys)
                 SendResponseWithInformation(item, response, "新的客户端进入房间", 0);
-            }
+
+            //进入成功，创建房间模型
+            RoomDto roomDto = new RoomDto();
+            foreach (var item in room.clientAccountDict.Values)
+                roomDto.accountList.Add(new AccountDto() { Account = item.Account, Password = item.Password });
+            response.Parameters[0] = LitJson.JsonMapper.ToJson(roomDto);
+            SendResponseWithInformation(client, response, "进入房间成功", 0);
+
         }
 
         //客户端离开房间
@@ -88,14 +82,14 @@ namespace MyGameServer.Logic
         }
 
         //聊天
-        private void Talk(MyClientPeer client,string contentStr)
+        private void Talk(MyClientPeer client, string contentStr)
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Chat, new Dictionary<byte, object>());
             response.Parameters[80] = ChatCode.Talk;
             AccountModel account = Factory.AccountCache.GetModel(client);
             RoomModel room = cache.GetRoomModel();
 
-            response.Parameters[0] = string.Format("{0} : {1}",account.Account,contentStr);
+            response.Parameters[0] = string.Format("{0} : {1}", account.Account, contentStr);
 
             foreach (var item in room.clientAccountDict.Keys)
             {
