@@ -36,7 +36,6 @@ namespace MyGameServer.Logic
         private void Enter(MyClientPeer client)
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Chat, new Dictionary<byte, object>());
-            response.Parameters[80] = ChatCode.Enter;
             AccountModel account = Factory.AccountCache.GetModel(client);
             RoomModel room = cache.Enter(client, account);
 
@@ -50,15 +49,21 @@ namespace MyGameServer.Logic
             //进入成功，创建房间模型
             RoomDto roomDto = new RoomDto();
             foreach (var item in room.clientAccountDict.Values)
-                roomDto.accountList.Add(new AccountDto() { Account = item.Account, Password = item.Password });
+                roomDto.accountList .Add(new AccountDto() { Account = item.Account, Password = item.Password });
+            response.Parameters[80] = ChatCode.Enter;
             response.Parameters[0] = LitJson.JsonMapper.ToJson(roomDto);
             SendResponseWithInformation(client, response, "进入房间成功", 0);
 
             //告诉其他房间客户端
             AccountDto accountDto = new AccountDto() { Account = account.Account, Password = account.Password };
+            response.Parameters[80] = ChatCode.Add;
             response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
             foreach (var item in room.clientAccountDict.Keys)
+            {
+                if (item == client)
+                    continue;
                 SendResponseWithInformation(item, response, "新的客户端进入房间" , 0);
+            }
 
         }
 
@@ -77,7 +82,7 @@ namespace MyGameServer.Logic
             //群发房间其他人有人离开
             foreach (var item in room.clientAccountDict.Keys)
             {
-                SendResponseWithInformation(item, response);
+                SendResponseWithInformation(item, response,string.Format("用户 {0} 离开房间",accountDto.Account),0);
             }
         }
 
@@ -92,9 +97,7 @@ namespace MyGameServer.Logic
             response.Parameters[0] = string.Format("{0} : {1}", account.Account, contentStr);
 
             foreach (var item in room.clientAccountDict.Keys)
-            {
                 SendResponseWithInformation(item, response);
-            }
         }
 
 
