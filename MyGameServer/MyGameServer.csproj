@@ -60,12 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\AccountCache.cs" />
+    <Compile Include="Cache\AccountsCache.cs" />
     <Compile Include="Cache\ChatCache.cs" />
     <Compile Include="Cache\Factory.cs" />
     <Compile Include="Logic\AccountHandler.cs" />
-    <Compile Include="Logic\ChatHandle.cs" />
-    <Compile Include="Logic\IHandler.cs" />
+    <Compile Include="Logic\ChatHandler.cs" />
+    <Compile Include="Logic\Handler.cs" />
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\RoomModel.cs" />
     <Compile Include="MyApplication.cs" />

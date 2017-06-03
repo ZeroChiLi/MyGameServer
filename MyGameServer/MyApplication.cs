@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Photon.SocketServer;
+﻿using Photon.SocketServer;
 using ExitGames.Logging;
 using ExitGames.Logging.Log4Net;
 using log4net;
@@ -13,7 +9,7 @@ namespace MyGameServer
 {
     public class MyApplication : ApplicationBase
     {
-
+        //日志文件 在Photon目录下deploy/log文件夹下
         private static readonly ILogger log = ExitGames.Logging.LogManager.GetCurrentClassLogger();
 
         public static void Log(string message)
@@ -21,7 +17,7 @@ namespace MyGameServer
             log.Info(message.ToString());
         }
 
-        //创建连接
+        //创建连接，每个客户端的入口
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             return new MyClientPeer(initRequest);
@@ -35,6 +31,7 @@ namespace MyGameServer
             Log("调用 Setup()!");
         }
 
+        //初始化日志
         protected virtual void InitLogging()
         {
             ExitGames.Logging.LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);
@@ -43,6 +40,7 @@ namespace MyGameServer
             XmlConfigurator.ConfigureAndWatch(new FileInfo(Path.Combine(this.BinaryPath, "log4net.config")));
         }
 
+        //服务器关闭时
         protected override void TearDown()
         {
             Log("调用 TearDown!");

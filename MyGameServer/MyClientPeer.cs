@@ -2,41 +2,44 @@
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using MyGameServer.Logic;
-using Code.Common;
+using Common.Code;
 
 namespace MyGameServer
 {
     public class MyClientPeer : ClientPeer
     {
-        //帐号处理
-        AccountHandler account;
-        //聊天处理
-        ChatHandle chat;
+        //帐号处理对象
+        private AccountHandler accountHandler;
+        //聊天处理对象
+        private ChatHandler chatHandler;
 
-        //客户端连接Peer
+        //客户端连接
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
-            account = new AccountHandler();
-            chat = new ChatHandle();
+            accountHandler = new AccountHandler();
+            chatHandler = new ChatHandler();
         }
 
-        //客户端断开
+        //客户端断开时调用
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            chat.OnDisconnect(this);
-            account.OnDisconnect(this);
+            chatHandler.OnDisconnect(this);
+            accountHandler.OnDisconnect(this);
         }
 
-        //客户端发出请求
+        //客户端发来的请求
         protected override void OnOperationRequest(OperationRequest request, SendParameters sendParameters)
         {
+            //按照共同规定的操作码来处理信息
             switch((OpCode)request.OperationCode)
-            {
+            {   
+                //操作用户组
                 case OpCode.Account:
-                    account.OnRequest(this, (byte)request.Parameters[80], request);
+                    accountHandler.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
+                //操作聊天室
                 case OpCode.Chat:
-                    chat.OnRequest(this, (byte)request.Parameters[80], request);
+                    chatHandler.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
             }
 

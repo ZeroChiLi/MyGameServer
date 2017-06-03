@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Code.Common
+﻿
+namespace Common.Code
 {
+    //操作码（Operation Code）
     public enum OpCode : byte
     {
         Account,    //帐号

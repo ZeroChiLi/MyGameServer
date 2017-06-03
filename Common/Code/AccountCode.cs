@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Code.Common
+﻿
+namespace Common.Code
 {
-    //[Serializable]
     public enum AccountCode : byte
     {
-        Register,
-        Login
+        Register,   //注册
+        Login       //登录
     }
 }

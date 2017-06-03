@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MyGameServer.Cache
 {
+    //用与获取用户列表
     public class Factory
     {
-        public static AccountCache accountCache = null;
+        public static AccountsCache accountCache = null;
         public static ChatCache chatCache = null;
 
         static Factory()
         {
-            accountCache = new AccountCache();
+            accountCache = new AccountsCache();
             chatCache = new ChatCache();
         }
     }

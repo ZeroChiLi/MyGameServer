@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MyGameServer.Model
 {
+    //用户模型
     public class AccountModel
     {
         public int Id;
-        public string Account;
+        public string AccountName;
         public string Password;
 
-        public AccountModel(int id, string account, string password)
+        public AccountModel(int id, string accountName, string password)
         {
             Id = id;
-            Account = account;
+            AccountName = accountName;
             Password = password;
         }
     }

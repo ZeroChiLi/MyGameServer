@@ -1,28 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Photon.SocketServer;
-using Code.Common;
 using MyGameServer.Cache;
 using Common.Dto;
 using LitJson;
+using Common.Code;
+using System;
 
 namespace MyGameServer.Logic
 {
-    class AccountHandler : IHandler
+    //用户请求处理
+    class AccountHandler : Handler
     {
-        AccountCache cache = Factory.accountCache;
+        AccountsCache accountCache = Factory.accountCache;
+
+        //服务器回复给客户端的信息
+        OperationResponse response = new OperationResponse((byte)OpCode.Account, new Dictionary<byte, object>());
+
 
         //客户端下线
-        public void OnDisconnect(MyClientPeer client)
+        public override void OnDisconnect(MyClientPeer client)
         {
-            cache.Offline(client);
+            accountCache.OffLine(client);
         }
 
-        //请求处理
-        public void OnRequest(MyClientPeer client, byte subCode, OperationRequest request)
+        //处理客户端请求处理
+        public override void OnRequest(MyClientPeer client, byte subCode, OperationRequest request)
         {
+            //获取发送请求的用户模版信息
             AccountDto dto = JsonMapper.ToObject<AccountDto>(request.Parameters[0].ToString()) as AccountDto;
             switch ((AccountCode)subCode)
             {
@@ -39,16 +43,15 @@ namespace MyGameServer.Logic
         //注册处理
         private void Register(MyClientPeer client, AccountDto account)
         {
-            OperationResponse response = new OperationResponse((byte)OpCode.Account, new Dictionary<byte, object>());
             response.Parameters[80] = AccountCode.Register;
-            if (cache.HasAccount(account.Account))
+            if (accountCache.Contain(account.AccountName))
             {
-                SendResponseWithInformation(client, response, "该帐号已经存在", -1);
+                SendResponseToClient(client, response, "该帐号已经存在", -1);
             }
             else
             {
-                cache.Add(account.Account, account.Password);
-                SendResponseWithInformation(client, response, "注册成功", 0);
+                accountCache.Add(account.AccountName, account.Password);
+                SendResponseToClient(client, response, "注册成功", 0);
             }
             return;
         }
@@ -56,36 +59,24 @@ namespace MyGameServer.Logic
         //登录处理
         private void Login(MyClientPeer client, AccountDto account)
         {
-            OperationResponse response = new OperationResponse((byte)OpCode.Account, new Dictionary<byte, object>());
             response.Parameters[80] = AccountCode.Login;
-            if(!cache.HasAccount(account.Account))
+            if(!accountCache.Contain(account.AccountName))
             {
-                SendResponseWithInformation(client, response, "该帐号不存在", -1);
-                return;
+                SendResponseToClient(client, response, "该帐号不存在", -1);
             }
-            else if (!cache.IsMatch(account.Account, account.Password))
+            else if (!accountCache.IsMatch(account.AccountName, account.Password))
             {
-                SendResponseWithInformation(client, response, "帐号密码不匹配", -2);
-                return;
+                SendResponseToClient(client, response, "帐号密码不匹配", -2);
             }
-            else if (cache.IsOnline(account.Account))
+            else if (accountCache.IsOnline(account.AccountName))
             {
-                SendResponseWithInformation(client, response, "玩家已经在线", -3);
-                return;
+                SendResponseToClient(client, response, "玩家已经在线", -3);
             }
             else
             {
-                cache.Online(client,account.Account,account.Password);
-                SendResponseWithInformation(client, response, "登陆成功", 0);
+                accountCache.OnLine(client,account.AccountName,account.Password);
+                SendResponseToClient(client, response, "登陆成功", 0);
             }
-        }
-
-        //发送信息
-        private void SendResponseWithInformation(MyClientPeer client,OperationResponse response,string debugMessage = "", short returnCode = 0)
-        {
-            response.DebugMessage = debugMessage;
-            response.ReturnCode = returnCode;
-            client.SendOperationResponse(response, new SendParameters());
         }
 
     }

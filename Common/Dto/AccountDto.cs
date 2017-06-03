@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace Common.Dto
 {
+    //用户数据传输对象
     [Serializable]
     public class AccountDto
     {
-        public string Account;
+        public string AccountName;
         public string Password;
-
-        //string connstring = "Data Source = (local);Initial Catalog = Accounts;Integrated Security = SSPI;";
-
-        //public AccountDto(int Id)
-        //{
-
-        //}
-
     }
 }
