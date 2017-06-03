@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\AccountCode.cs" />
-    <Compile Include="Code\ChatCode.cs" />
+    <Compile Include="Code\RoomCode.cs" />
     <Compile Include="Code\OpCode.cs" />
     <Compile Include="Dto\AccountDto.cs" />
     <Compile Include="Dto\RoomDto.cs" />

@@ -7,11 +7,11 @@ namespace Common.Dto
     [Serializable]
     public class RoomDto
     {
-        public List<AccountDto> accountList;
+        public List<AccountDto> AccountList;
 
         public RoomDto()
         {
-            accountList = new List<AccountDto>();
+            AccountList = new List<AccountDto>();
         }
     }
 }

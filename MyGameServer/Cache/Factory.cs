@@ -1,16 +1,16 @@
 ﻿
 namespace MyGameServer.Cache
 {
-    //用与获取用户列表
+    //用于获取用户和房间单例
     public class Factory
     {
         public static AccountsCache accountCache = null;
-        public static ChatCache chatCache = null;
+        public static RoomCache chatCache = null;
 
         static Factory()
         {
             accountCache = new AccountsCache();
-            chatCache = new ChatCache();
+            chatCache = new RoomCache();
         }
     }
 }

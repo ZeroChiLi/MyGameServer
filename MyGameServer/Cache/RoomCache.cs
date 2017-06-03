@@ -2,12 +2,12 @@
 
 namespace MyGameServer.Cache
 {
-    //聊天缓存，其实房间模型缓存
-    public class ChatCache
+    //聊天房间模型缓存
+    public class RoomCache
     {
         private RoomModel room;
 
-        public ChatCache()
+        public RoomCache()
         {
             room = new RoomModel(0);
         }

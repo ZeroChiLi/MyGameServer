@@ -8,12 +8,12 @@ using MyGameServer.Model;
 namespace MyGameServer.Logic
 {
     //聊天
-    public class ChatHandler : Handler
+    public class RoomHandler : Handler
     {
-        ChatCache chatCache = Factory.chatCache;
+        RoomCache chatCache = Factory.chatCache;
 
         //服务器回复给客户端的信息
-        OperationResponse response = new OperationResponse((byte)OpCode.Chat, new Dictionary<byte, object>());
+        OperationResponse response = new OperationResponse((byte)OpCode.Room, new Dictionary<byte, object>());
 
 
         //断开连接时
@@ -25,14 +25,14 @@ namespace MyGameServer.Logic
         //处理客户端发来的请求
         public override void OnRequest(MyClientPeer client, byte subCode, OperationRequest request)
         {
-            switch ((ChatCode)subCode)
+            switch ((RoomCode)subCode)
             {
                 //请求进入房间
-                case ChatCode.Enter:
+                case RoomCode.Enter:
                     Enter(client);
                     break;
                 //发出聊天信息
-                case ChatCode.Talk:
+                case RoomCode.Talk:
                     string contentString = request.Parameters[0].ToString();
                     Talk(client, contentString);
                     break;
@@ -56,14 +56,14 @@ namespace MyGameServer.Logic
             RoomDto roomDto = new RoomDto();
             //获取当前房间所有客户端，发送给客户端
             foreach (var item in room.clientAccountDict.Values)
-                roomDto.accountList .Add(new AccountDto() { AccountName = item.AccountName, Password = item.Password });
-            response.Parameters[80] = ChatCode.Enter;
+                roomDto.AccountList .Add(new AccountDto() { AccountName = item.AccountName, Password = item.Password });
+            response.Parameters[80] = RoomCode.Enter;
             response.Parameters[0] = LitJson.JsonMapper.ToJson(roomDto);
             SendResponseToClient(client, response, "进入房间成功", 0);
 
             //把这个新来的用户信息告诉房间内的其他客户端
             AccountDto accountDto = new AccountDto() { AccountName = account.AccountName, Password = account.Password };
-            response.Parameters[80] = ChatCode.Add;
+            response.Parameters[80] = RoomCode.Add;
             response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
             foreach (var item in room.clientAccountDict.Keys)
             {
@@ -84,7 +84,7 @@ namespace MyGameServer.Logic
             //创建Dto以用来传输数据
             AccountDto accountDto = new AccountDto() { AccountName = accountModel.AccountName, Password = accountModel.Password };
 
-            response.Parameters[80] = ChatCode.Leave;
+            response.Parameters[80] = RoomCode.Leave;
             response.Parameters[0] = LitJson.JsonMapper.ToJson(accountDto);
             RoomModel room = chatCache.GetRoomModel();
             //群发给房间其他人，自己要离开
@@ -98,7 +98,7 @@ namespace MyGameServer.Logic
             AccountModel accountModel = Factory.accountCache.GetAccountModel(client);
             RoomModel room = chatCache.GetRoomModel();
 
-            response.Parameters[80] = ChatCode.Talk;
+            response.Parameters[80] = RoomCode.Talk;
             response.Parameters[0] = string.Format("{0} : {1}", accountModel.AccountName, contentStr);
             foreach (var item in room.clientAccountDict.Keys)
                 SendResponseToClient(item, response);

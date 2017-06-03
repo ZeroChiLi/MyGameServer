@@ -5,6 +5,6 @@ namespace Common.Code
     public enum OpCode : byte
     {
         Account,    //帐号
-        Chat        //聊天
+        Room        //房间
     }
 }

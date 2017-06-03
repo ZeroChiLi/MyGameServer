@@ -11,13 +11,13 @@ namespace MyGameServer
         //帐号处理对象
         private AccountHandler accountHandler;
         //聊天处理对象
-        private ChatHandler chatHandler;
+        private RoomHandler chatHandler;
 
         //客户端连接
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
             accountHandler = new AccountHandler();
-            chatHandler = new ChatHandler();
+            chatHandler = new RoomHandler();
         }
 
         //客户端断开时调用
@@ -38,7 +38,7 @@ namespace MyGameServer
                     accountHandler.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
                 //操作聊天室
-                case OpCode.Chat:
+                case OpCode.Room:
                     chatHandler.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
             }
