@@ -12,7 +12,7 @@ namespace MyGameServer.Logic
 {
     class AccountHandler : IHandler
     {
-        AccountCache cache = Factory.AccountCache;
+        AccountCache cache = Factory.accountCache;
 
         //客户端下线
         public void OnDisconnect(MyClientPeer client)
@@ -68,7 +68,7 @@ namespace MyGameServer.Logic
                 SendResponseWithInformation(client, response, "帐号密码不匹配", -2);
                 return;
             }
-            else if (cache.IsOnline(client))
+            else if (cache.IsOnline(account.Account))
             {
                 SendResponseWithInformation(client, response, "玩家已经在线", -3);
                 return;

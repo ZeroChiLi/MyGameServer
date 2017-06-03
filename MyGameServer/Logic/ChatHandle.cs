@@ -10,7 +10,7 @@ namespace MyGameServer.Logic
 {
     public class ChatHandle : IHandler
     {
-        ChatCache cache { get { return Factory.ChatCache; } }
+        ChatCache cache { get { return Factory.chatCache; } }
 
         public void OnDisconnect(MyClientPeer client)
         {
@@ -36,7 +36,7 @@ namespace MyGameServer.Logic
         private void Enter(MyClientPeer client)
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Chat, new Dictionary<byte, object>());
-            AccountModel account = Factory.AccountCache.GetModel(client);
+            AccountModel account = Factory.accountCache.GetAccountModel(client);
             RoomModel room = cache.Enter(client, account);
 
             //房间获取失败
@@ -91,7 +91,7 @@ namespace MyGameServer.Logic
         {
             OperationResponse response = new OperationResponse((byte)OpCode.Chat, new Dictionary<byte, object>());
             response.Parameters[80] = ChatCode.Talk;
-            AccountModel account = Factory.AccountCache.GetModel(client);
+            AccountModel account = Factory.accountCache.GetAccountModel(client);
             RoomModel room = cache.GetRoomModel();
 
             response.Parameters[0] = string.Format("{0} : {1}", account.Account, contentStr);

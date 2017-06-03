@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Common.Dto
 {
@@ -10,5 +9,13 @@ namespace Common.Dto
     {
         public string Account;
         public string Password;
+
+        //string connstring = "Data Source = (local);Initial Catalog = Accounts;Integrated Security = SSPI;";
+
+        //public AccountDto(int Id)
+        //{
+
+        //}
+
     }
 }

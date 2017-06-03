@@ -7,27 +7,13 @@ namespace MyGameServer.Cache
 {
     public class Factory
     {
-        private static AccountCache accountCache = null;
-        public static AccountCache AccountCache
-        {
-            get
-            {
-                if (accountCache == null)
-                    accountCache = new AccountCache();
-                return accountCache;
-            }
-        }
+        public static AccountCache accountCache = null;
+        public static ChatCache chatCache = null;
 
-        private static ChatCache chatCache = null;
-        public static ChatCache ChatCache
+        static Factory()
         {
-            get
-            {
-                if (chatCache == null)
-                    chatCache = new ChatCache();
-                return chatCache;
-            }
-
+            accountCache = new AccountCache();
+            chatCache = new ChatCache();
         }
     }
 }
