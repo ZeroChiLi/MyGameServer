@@ -11,19 +11,19 @@ namespace MyGameServer
         //帐号处理对象
         private AccountHandler accountHandler;
         //聊天处理对象
-        private RoomHandler chatHandler;
+        private RoomHandler roomHandler;
 
         //客户端连接
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
             accountHandler = new AccountHandler();
-            chatHandler = new RoomHandler();
+            roomHandler = new RoomHandler();
         }
 
         //客户端断开时调用
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            chatHandler.OnDisconnect(this);
+            roomHandler.OnDisconnect(this);
             accountHandler.OnDisconnect(this);
         }
 
@@ -39,7 +39,7 @@ namespace MyGameServer
                     break;
                 //操作聊天室
                 case OpCode.Room:
-                    chatHandler.OnRequest(this, (byte)request.Parameters[80], request);
+                    roomHandler.OnRequest(this, (byte)request.Parameters[80], request);
                     break;
             }
 

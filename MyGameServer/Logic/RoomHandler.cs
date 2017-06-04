@@ -36,6 +36,9 @@ namespace MyGameServer.Logic
                     string contentString = request.Parameters[0].ToString();
                     Talk(client, contentString);
                     break;
+                case RoomCode.Leave:
+                    client.Disconnect();
+                    break;
             }
         }
 

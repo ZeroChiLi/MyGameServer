@@ -2,4 +2,5 @@ E:\Unity_code\PhotonTest\Assets\Plugins\Common.dll
 E:\Unity_code\PhotonTest\Assets\Plugins\Common.pdb
 E:\Unity_code\MyGameServer\Common\obj\Debug\Common.dll
 E:\Unity_code\MyGameServer\Common\obj\Debug\Common.pdb
-E:\Unity_code\MyGameServer\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+E:\Unity_code\PhotonChatRoom\Assets\Plugins\Common.dll
+E:\Unity_code\PhotonChatRoom\Assets\Plugins\Common.pdb
