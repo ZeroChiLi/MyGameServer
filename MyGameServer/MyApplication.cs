@@ -12,23 +12,18 @@ namespace MyGameServer
         //日志文件 在Photon目录下deploy/log文件夹下
         private static readonly ILogger log = ExitGames.Logging.LogManager.GetCurrentClassLogger();
 
-        public static void Log(string message)
-        {
-            log.Info(message.ToString());
-        }
-
-        //创建连接，每个客户端的入口
-        protected override PeerBase CreatePeer(InitRequest initRequest)
-        {
-            return new MyClientPeer(initRequest);
-        }
-
         //服务器启动时
         protected override void Setup()
         {
             InitLogging();
 
             Log("调用 Setup()!");
+        }
+
+        //创建连接，每个客户端的入口
+        protected override PeerBase CreatePeer(InitRequest initRequest)
+        {
+            return new MyClientPeer(initRequest);
         }
 
         //初始化日志
@@ -45,5 +40,12 @@ namespace MyGameServer
         {
             Log("调用 TearDown!");
         }
+
+        //输出日志到日志文件里
+        public static void Log(string message)
+        {
+            log.Info(message.ToString());
+        }
+
     }
 }

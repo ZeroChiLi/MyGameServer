@@ -7,44 +7,49 @@ namespace MyGameServer.Cache
     public class AccountsCache
     {
         //所有帐号ID和模型的映射
-        private Dictionary<int, AccountModel> idModelDict;
-        private int index = 0;
+        private List<AccountModel> accountModelList;
 
         //在线玩家客户端和帐号模型映射
         private Dictionary<MyClientPeer, AccountModel> clientModelDict;
 
         public AccountsCache()
         {
-            idModelDict = new Dictionary<int, AccountModel>();
+            accountModelList = new List<AccountModel>();
             clientModelDict = new Dictionary<MyClientPeer, AccountModel>();
+
+            //把数据库的都加到字典了
+            accountModelList = SqlCache.GetAccountList();
         }
 
         #region 注册相关
 
         //添加帐号
-        public void Add(string accountName,string password)
+        public void Add(string accountName, string password)
         {
-            idModelDict.Add(index, new AccountModel(index, accountName, password));
-            index++;
+            accountModelList.Add(new AccountModel(accountName, password));
+
+            //添加到数据库
+            SqlCache.AddAccount(accountName, password);
         }
 
         //缓存中是否已经含有该账户
         public bool Contain(string accountName)
         {
-            foreach(AccountModel accountModel in idModelDict.Values)
+            foreach (AccountModel accountModel in accountModelList)
                 if (accountName == accountModel.AccountName)
                     return true;
+
             return false;
         }
 
         //检测帐号密码是否匹配
-        public bool IsMatch(string accountName,string password)
+        public bool IsMatch(string accountName, string password)
         {
-            foreach(AccountModel accountModel in idModelDict.Values)
+            foreach (AccountModel accountModel in accountModelList)
                 if (accountModel.AccountName == accountName && accountModel.Password == password)
                     return true;
-            return false;
 
+            return false;
         }
 
         #endregion
@@ -63,9 +68,12 @@ namespace MyGameServer.Cache
         //玩家上线
         public void OnLine(MyClientPeer client, string accountName, string password)
         {
-            foreach (AccountModel accountModel in idModelDict.Values)
+            foreach (AccountModel accountModel in accountModelList)
                 if (accountModel.AccountName == accountName && accountModel.Password == password)
+                {
                     clientModelDict.Add(client, accountModel);
+                    return;
+                }
         }
 
         //玩家下线
